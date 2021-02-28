@@ -1,0 +1,26 @@
+{ "vst": 
+  [{
+    "vent": "group.downstairs_bedroom_vents", 
+    "sensor": "sensor.bedroom_temperature", 
+    "target": "input_number.downstairs_bedroom_cool"
+   },
+   {
+    "vent": "group.theatre_vents", 
+    "sensor": "sensor.ecobee_theatre_temperature", 
+    "target": "input_number.theatre_cool"
+   }],
+  "thresholds":
+  [{
+    "lower_bound": 0,
+    "position": 8
+  },
+  {
+    "lower_bound": -1,
+    "upper_bound": 0,
+    "position": 50
+  },
+  {
+    "upper_bound": -1,
+    "position": 100
+  }]
+}

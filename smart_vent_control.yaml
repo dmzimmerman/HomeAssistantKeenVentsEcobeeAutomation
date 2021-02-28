@@ -1,0 +1,258 @@
+#
+# HomeAssistant Smart Vent Integration
+# Daniel M. Zimmerman, December 2020
+#
+
+#
+# Sensors
+#
+sensor:
+    platform: template
+    sensors:
+      # sensors for Ecobee heat/cool and fan
+      ecobee_main_hvac_status:
+        friendly_name: "Ecobee Main HVAC Status"
+        unique_id: "ecobee_main_hvac_status"
+        value_template: > 
+          {% if is_state_attr('climate.ecobee3_main', 'hvac_action', 'heating') %}
+            heating
+          {% elif is_state_attr('climate.ecobee3_main', 'hvac_action', 'cooling') %}
+            cooling
+          # note: fan state doesn't work with the HomeKit integration
+          {% elif is_state_attr('climate.ecobee3_main', 'fan', 'on') %}
+            fan
+          {% else %}
+            idle
+          {% endif %}
+      ecobee_theatre_hvac_status:
+        friendly_name: "Ecobee Theatre HVAC Status"
+        unique_id: "ecobee_theatre_hvac_status"
+        value_template: > 
+          {% if is_state_attr('climate.ecobee3_theatre', 'hvac_action', 'heating') %}
+            heating
+          {% elif is_state_attr('climate.ecobee3_theatre', 'hvac_action', 'cooling') %}
+            cooling
+          # note: fan state doesn't work with the HomeKit integration
+          {% elif is_state_attr('climate.ecobee3_theatre', 'fan', 'on') %}
+            fan
+          {% else %}
+            idle
+          {% endif %}
+      ecobee_theatre_temperature:
+        friendly_name: "Ecobee Theatre Temperature"
+        unique_id: "ecobee_theatre_temperature"
+        unit_of_measurement: 'degrees'
+        value_template: >
+          {{ state_attr('climate.ecobee3_theatre', 'current_temperature') }}
+
+# 
+# Input Boolean
+#
+input_boolean:
+  # master switch to turn vent automation on/off
+  vent_automation:
+    name: Vent Automation
+    initial: true
+
+#
+# Input Number
+#
+input_number:
+  # input numbers for smart vent heat/cool targets, in alphabetical order by room
+  downstairs_bedroom_cool:
+    name: Downstairs Bedroom Cool Target
+    initial: 74
+    min: 60
+    max: 80
+    step: 1
+  downstairs_bedroom_heat:
+    name: Downstairs Bedroom Heat Target
+    initial: 68
+    min: 60
+    max: 80
+    step: 1
+  exercise_room_cool:
+    name: Exercise Room Cool Target
+    initial: 74
+    min: 60
+    max: 80
+    step: 1
+  exercise_room_heat:
+    name: Exercise Room Heat Target
+    initial: 68
+    min: 60
+    max: 80
+    step: 1
+  kitchen_cool:
+    name: Kitchen Cool Target
+    initial: 74
+    min: 60
+    max: 80
+    step: 1
+  kitchen_heat:
+    name: Kitchen Heat Target
+    initial: 68
+    min: 60
+    max: 80
+    step: 1
+  living_room_cool:
+    name: Living Room Cool Target
+    initial: 74
+    min: 60
+    max: 80
+    step: 1
+  living_room_heat:
+    name: Living Room Heat Target
+    initial: 68
+    min: 60
+    max: 80
+    step: 1
+  main_floor_bedroom_cool:
+    name: Main Floor Bedroom Cool Target
+    initial: 74
+    min: 60
+    max: 80
+    step: 1
+  main_floor_bedroom_heat:
+    name: Main Floor Bedroom Heat Target
+    initial: 68
+    min: 60
+    max: 80
+    step: 1
+  master_bedroom_cool:
+    name: Master Bedroom Cool Target
+    initial: 74
+    min: 60
+    max: 80
+    step: 1
+  master_bedroom_heat:
+    name: Master Bedroom Heat Target
+    initial: 68
+    min: 60
+    max: 80
+    step: 1
+  office_cool:
+    name: Office Cool Target
+    initial: 74
+    min: 60
+    max: 80
+    step: 1
+  office_heat:
+    name: Office Heat Target
+    initial: 68
+    min: 60
+    max: 80
+    step: 1
+  playroom_cool:
+    name: Playroom Cool Target
+    initial: 74
+    min: 60
+    max: 80
+    step: 1
+  playroom_heat:
+    name: Playroom Heat Target
+    initial: 68
+    min: 60
+    max: 80
+    step: 1
+  theatre_cool:
+    name: Theatre Cool Target
+    initial: 74
+    min: 60
+    max: 80
+    step: 1
+  theatre_heat:
+    name: Theatre Heat Target
+    initial: 68
+    min: 60
+    max: 80
+    step: 1
+  twins_bedroom_cool:
+    name: Twins' Bedroom Cool Target
+    initial: 74
+    min: 60
+    max: 80
+    step: 1
+  twins_bedroom_heat:
+    name: Twins' Bedroom Heat Target
+    initial: 68
+    min: 60
+    max: 80
+    step: 1
+  yoga_room_cool:
+    name: Yoga Room Cool Target
+    initial: 74
+    min: 60
+    max: 80
+    step: 1
+  yoga_room_heat:
+    name: Yoga Room Heat Target
+    initial: 68
+    min: 60
+    max: 80
+    step: 1
+
+#
+# Groups
+#
+group:
+  downstairs_bedroom_vents:
+    name: Downstairs Bedroom Vents
+    entities:
+      - cover.keen_home_inc_sv01_612_mp_1_4_dcf71400_level_on_off
+      - cover.keen_home_inc_sv01_610_mp_1_4_level_on_off
+  exercise_room_vents:
+    name: Exercise Room Vents
+    entities:
+      - cover.keen_home_inc_sv02_610_mp_1_2_755f95fe_level_on_off
+      - cover.keen_home_inc_sv02_610_mp_1_2_b05d95fe_level_on_off
+  living_room_vents:
+    name: Living Room Vents
+    entities:
+      - cover.keen_home_inc_sv01_412_mp_1_0_7da81200_level_on_off
+      - cover.keen_home_inc_sv01_412_mp_1_0_e0b41200_level_on_off
+  main_floor_bedroom_vents:
+    name: Main Floor Bedroom Vents
+    entities:
+      - cover.keen_home_inc_sv02_410_mp_1_2_level_on_off
+  master_bedroom_vents:
+    name: Master Bedroom Vents
+    entities:
+      - cover.keen_home_inc_sv02_610_mp_1_2_level_on_off
+      - cover.keen_home_inc_sv02_612_mp_1_2_704092fe_level_on_off
+  office_vents:
+    name: Office Vents
+    entities:
+      - cover.keen_home_inc_sv02_610_mp_1_2_915f95fe_level_on_off
+  playroom_vents:
+    name: Playroom Vents
+    entities:
+      - cover.keen_home_inc_sv02_610_mp_1_2_294492fe_level_on_off
+  theatre_vents:
+    name: Theatre Vents
+    entities:
+      - cover.keen_home_inc_sv01_612_mp_1_4_a5351500_level_on_off
+  twins_bedroom_vents:
+    name: Twins' Bedroom Vents
+    entities:
+      - cover.keen_home_inc_sv02_610_mp_1_2_f26495fe_level_on_off
+  yoga_room_vents:
+    name: Yoga Room Vents
+    entities:
+      - cover.keen_home_inc_sv02_610_mp_1_2_d36095fe_level_on_off
+  ecobee_main_vents:
+    name: Vents Controlled by Ecobee Main
+    entities:
+      - group.exercise_room_vents
+      - group.living_room_vents
+      - group.main_floor_bedroom_vents
+      - group.master_bedroom_vents
+      - group.office_vents
+      - group.playroom_vents
+      - group.twins_bedroom_vents
+      - group.yoga_room_vents
+  ecobee_theatre_vents:
+    name: Vents Controlled by Ecobee Theatre
+    entities:
+      - group.downstairs_bedroom_vents
+      - group.theatre_vents

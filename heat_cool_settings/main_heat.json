@@ -1,0 +1,51 @@
+{ "vst": 
+  [{
+    "vent": "group.exercise_room_vents", 
+    "sensor": "sensor.exercise_room_temperature", 
+    "target": "input_number.exercise_room_heat"
+   },
+   {
+    "vent": "group.living_room_vents", 
+    "sensor": "sensor.living_and_kitchen_temperature", 
+    "target": "input_number.living_room_heat"
+   },
+   {
+    "vent": "group.main_floor_bedroom_vents", 
+    "sensor": "sensor.main_floor_bedroom_temperature", 
+    "target": "input_number.main_floor_bedroom_heat"
+   },
+   {
+    "vent": "group.master_bedroom_vents", 
+    "sensor": "sensor.master_bedroom_temperature", 
+    "target": "input_number.master_bedroom_heat"
+  },
+  {
+    "vent": "group.office_vents", 
+    "sensor": "sensor.office_temperature", 
+    "target": "input_number.office_heat"
+  },
+  {
+    "vent": "group.playroom_vents", 
+    "sensor": "sensor.playroom_temperature",  
+    "target": "input_number.playroom_heat"
+  },
+  {
+    "vent": "group.twins_bedroom_vents", 
+    "sensor": "sensor.twins_bedroom_temperature",  
+    "target": "input_number.twins_bedroom_heat"
+  }],
+  "thresholds":
+  [{
+    "upper_bound": 0,
+    "position": 8
+  },
+  {
+    "lower_bound": 0,
+    "upper_bound": 1,
+    "position": 50
+  },
+  {
+    "lower_bound": 1,
+    "position": 100
+  }]
+}
