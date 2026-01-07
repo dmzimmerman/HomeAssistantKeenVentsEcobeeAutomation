@@ -1,49 +1,43 @@
 #
 # HomeAssistant Smart Vent Integration
-# Daniel M. Zimmerman, December 2020
+# Daniel M. Zimmerman, January 2026
 #
 
+# Version History
+# 
+# 1.0, December 2020:
+#   Initial version
+#
+# 1.1, January 2026: 
+#   Updated sensors for new HomeAssistant sensor syntax, as old
+#   syntax is being deprecated in release 2026.6.
 #
 # Sensors
 #
-sensor:
-    platform: template
-    sensors:
-      # sensors for Ecobee heat/cool and fan
-      ecobee_main_hvac_status:
-        friendly_name: "Ecobee Main HVAC Status"
-        unique_id: "ecobee_main_hvac_status"
-        value_template: > 
-          {% if is_state_attr('climate.ecobee3_main', 'hvac_action', 'heating') %}
-            heating
-          {% elif is_state_attr('climate.ecobee3_main', 'hvac_action', 'cooling') %}
-            cooling
-          # note: fan state doesn't work with the HomeKit integration
-          {% elif is_state_attr('climate.ecobee3_main', 'fan', 'on') %}
-            fan
-          {% else %}
-            idle
-          {% endif %}
-      ecobee_theatre_hvac_status:
-        friendly_name: "Ecobee Theatre HVAC Status"
-        unique_id: "ecobee_theatre_hvac_status"
-        value_template: > 
-          {% if is_state_attr('climate.ecobee3_theatre', 'hvac_action', 'heating') %}
-            heating
-          {% elif is_state_attr('climate.ecobee3_theatre', 'hvac_action', 'cooling') %}
-            cooling
-          # note: fan state doesn't work with the HomeKit integration
-          {% elif is_state_attr('climate.ecobee3_theatre', 'fan', 'on') %}
-            fan
-          {% else %}
-            idle
-          {% endif %}
-      ecobee_theatre_temperature:
-        friendly_name: "Ecobee Theatre Temperature"
-        unique_id: "ecobee_theatre_temperature"
-        unit_of_measurement: 'degrees'
-        value_template: >
-          {{ state_attr('climate.ecobee3_theatre', 'current_temperature') }}
+template:
+  - sensor:
+    - unique_id: ecobee_main_hvac_status
+      default_entity_id: sensor.ecobee_main_hvac_status
+      name: Ecobee Main HVAC Status
+      state: "{% if is_state_attr('climate.ecobee3_main', 'hvac_action', 'heating')
+        %}\n  heating\n{% elif is_state_attr('climate.ecobee3_main', 'hvac_action',
+        'cooling') %}\n  cooling\n{% elif is_state_attr('climate.ecobee3_main', 'fan',
+        'on') %}\n  fan\n{% else %}\n  idle\n{% endif %}"
+  - sensor:
+    - unique_id: ecobee_theatre_hvac_status
+      default_entity_id: sensor.ecobee_theatre_hvac_status
+      name: Ecobee Theatre HVAC Status
+      state: "{% if is_state_attr('climate.ecobee3_theatre', 'hvac_action', 'heating')
+        %}\n  heating\n{% elif is_state_attr('climate.ecobee3_theatre', 'hvac_action',
+        'cooling') %}\n  cooling\n# note: fan state doesn't work with the HomeKit integration
+        {% elif is_state_attr('climate.ecobee3_theatre', 'fan', 'on') %}\n  fan\n{%
+        else %}\n  idle\n{% endif %}"
+  - sensor:
+    - unique_id: ecobee_theatre_temperature
+      unit_of_measurement: degrees
+      default_entity_id: sensor.ecobee_theatre_temperature
+      name: Ecobee Theatre Temperature
+      state: '{{ state_attr(''climate.ecobee3_theatre'', ''current_temperature'') }}'
 
 # 
 # Input Boolean
